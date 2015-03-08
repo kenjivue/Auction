@@ -23,9 +23,7 @@
 			<table>
 			<thead>
 					<tr>
-					
-						<th><g:message code="listing.owner.label" default="Owner" /></th>
-					
+
 						<g:sortableColumn property="listingName" title="${message(code: 'listing.listingName.label', default: 'Listing Name')}" />
 					
 						<g:sortableColumn property="listingDays" title="${message(code: 'listing.listingDays.label', default: 'Listing Days')}" />
@@ -42,9 +40,7 @@
 				<g:each in="${listingInstanceList}" status="i" var="listingInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="show" id="${listingInstance.id}">${fieldValue(bean: listingInstance, field: "owner")}</g:link></td>
-					
-						<td>${fieldValue(bean: listingInstance, field: "listingName")}</td>
+						<td><g:link action="show" id="${listingInstance.id}">${fieldValue(bean: listingInstance, field: "listingName")}</g:link></td>
 					
 						<td>${fieldValue(bean: listingInstance, field: "listingDays")}</td>
 					

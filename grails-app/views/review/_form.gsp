@@ -2,12 +2,30 @@
 
 
 
-<div class="fieldcontain ${hasErrors(bean: reviewInstance, field: 'reviewtype', 'error')} required">
-	<label for="reviewtype">
-		<g:message code="review.reviewtype.label" default="Reviewtype" />
+<div class="fieldcontain ${hasErrors(bean: reviewInstance, field: 'reviewType', 'error')} required">
+	<label for="reviewType">
+		<g:message code="review.reviewType.label" default="Review Type" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="reviewtype" required="" value="${reviewInstance?.reviewtype}"/>
+	<g:select id="reviewType" name="reviewType.id" from="${auction.ReviewType.list()}" optionKey="id" required="" value="${reviewInstance?.reviewType?.id}" class="many-to-one"/>
+
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: reviewInstance, field: 'account', 'error')} required">
+	<label for="account">
+		<g:message code="review.account.label" default="Account" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:select id="account" name="account.id" from="${auction.Account.list()}" optionKey="id" required="" value="${reviewInstance?.account?.id}" class="many-to-one"/>
+
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: reviewInstance, field: 'reviewer', 'error')} required">
+	<label for="reviewer">
+		<g:message code="review.reviewer.label" default="Reviewer" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:select id="reviewer" name="reviewer.id" from="${auction.Account.list()}" optionKey="id" required="" value="${reviewInstance?.reviewer?.id}" class="many-to-one"/>
 
 </div>
 
@@ -20,21 +38,12 @@
 
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: reviewInstance, field: 'reviewee', 'error')} required">
-	<label for="reviewee">
-		<g:message code="review.reviewee.label" default="Reviewee" />
+<div class="fieldcontain ${hasErrors(bean: reviewInstance, field: 'datecreated', 'error')} required">
+	<label for="datecreated">
+		<g:message code="review.datecreated.label" default="Datecreated" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:select id="reviewee" name="reviewee.id" from="${auction.AccountReview.list()}" optionKey="id" required="" value="${reviewInstance?.reviewee?.id}" class="many-to-one"/>
-
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: reviewInstance, field: 'reviewer', 'error')} required">
-	<label for="reviewer">
-		<g:message code="review.reviewer.label" default="Reviewer" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:select id="reviewer" name="reviewer.id" from="${auction.Account.list()}" optionKey="id" required="" value="${reviewInstance?.reviewer?.id}" class="many-to-one"/>
+	<g:datePicker name="datecreated" precision="day"  value="${reviewInstance?.datecreated}"  />
 
 </div>
 

@@ -3,14 +3,15 @@ package auction
 class Review {
     def scaffolding = true
     Account account
-    String reviewtype
     String comments
     boolean thumbsUp
     Date datecreated = new Date()
-    static  belongsTo = [reviewer: Account]
+    ReviewType reviewType
+    static belongsTo = [reviewer: Account]
     static constraints = {
-        reviewtype(nullable: false, inList: 'Seller','Buyer')
+        reviewType(nullable: false)
         account(nullable: false)
         reviewer(nullable: false )
+        comments(nullable: true)
     }
 }

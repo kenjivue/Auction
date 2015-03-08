@@ -61,7 +61,7 @@
 		<g:message code="listing.listingDescription.label" default="Listing Description" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="listingDescription" required="" value="${listingInstance?.listingDescription}"/>
+	<g:textArea name="listingDescription" required="" value="${listingInstance?.listingDescription}"/>
 
 </div>
 

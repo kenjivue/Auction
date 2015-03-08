@@ -5,7 +5,6 @@ class Bid {
     Listing listing
     Account bidder
     BigDecimal amount
-    Boolean winner
     Date bidDate=new Date()
     static constraints = {
         bidder(nullable: false, validator:{ val,obj-> val!=obj.listing.owner})

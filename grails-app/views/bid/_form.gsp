@@ -38,12 +38,5 @@
 
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: bidInstance, field: 'winner', 'error')} ">
-	<label for="winner">
-		<g:message code="bid.winner.label" default="Winner" />
-		
-	</label>
-	<g:checkBox name="winner" value="${bidInstance?.winner}" />
 
-</div>
 

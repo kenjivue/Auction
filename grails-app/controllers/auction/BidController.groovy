@@ -14,7 +14,10 @@ class BidController {
         params.max = Math.min(max ?: 10, 100)
         respond Bid.list(params), model:[bidInstanceCount: Bid.count()]
     }
-
+    def list(){
+        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        [bidList: Bid.list(params), bidTotal: Bid.count()]
+    }
     def show(Bid bidInstance) {
         respond bidInstance
     }

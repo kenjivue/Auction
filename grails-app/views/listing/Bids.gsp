@@ -27,7 +27,6 @@
 
             <th>Bids for Listing: ${Listing.name}</th>
 
-            <g:sortableColumn property="listingName" title="${message(code: 'listing.listingName.label', default: 'Listing Name')}" />
 
             <g:sortableColumn property="listingDays" title="${message(code: 'listing.listingDays.label', default: 'Listing Days')}" />
 

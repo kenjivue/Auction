@@ -24,13 +24,15 @@
 			<thead>
 					<tr>
 					
-						<g:sortableColumn property="reviewtype" title="${message(code: 'review.reviewtype.label', default: 'Reviewtype')}" />
+						<th><g:message code="review.reviewType.label" default="Review Type" /></th>
+					
+						<th><g:message code="review.account.label" default="Account" /></th>
+					
+						<th><g:message code="review.reviewer.label" default="Reviewer" /></th>
 					
 						<g:sortableColumn property="comments" title="${message(code: 'review.comments.label', default: 'Comments')}" />
 					
-						<th><g:message code="review.reviewee.label" default="Reviewee" /></th>
-					
-						<th><g:message code="review.reviewer.label" default="Reviewer" /></th>
+						<g:sortableColumn property="datecreated" title="${message(code: 'review.datecreated.label', default: 'Datecreated')}" />
 					
 						<g:sortableColumn property="thumbsUp" title="${message(code: 'review.thumbsUp.label', default: 'Thumbs Up')}" />
 					
@@ -40,13 +42,15 @@
 				<g:each in="${reviewInstanceList}" status="i" var="reviewInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="show" id="${reviewInstance.id}">${fieldValue(bean: reviewInstance, field: "reviewtype")}</g:link></td>
+						<td><g:link action="show" id="${reviewInstance.id}">${fieldValue(bean: reviewInstance, field: "reviewType")}</g:link></td>
+					
+						<td>${fieldValue(bean: reviewInstance, field: "account")}</td>
+					
+						<td>${fieldValue(bean: reviewInstance, field: "reviewer")}</td>
 					
 						<td>${fieldValue(bean: reviewInstance, field: "comments")}</td>
 					
-						<td>${fieldValue(bean: reviewInstance, field: "reviewee")}</td>
-					
-						<td>${fieldValue(bean: reviewInstance, field: "reviewer")}</td>
+						<td><g:formatDate date="${reviewInstance.datecreated}" /></td>
 					
 						<td><g:formatBoolean boolean="${reviewInstance.thumbsUp}" /></td>
 					

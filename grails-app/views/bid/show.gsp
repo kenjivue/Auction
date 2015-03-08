@@ -59,14 +59,7 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${bidInstance?.winner}">
-				<li class="fieldcontain">
-					<span id="winner-label" class="property-label"><g:message code="bid.winner.label" default="Winner" /></span>
-					
-						<span class="property-value" aria-labelledby="winner-label"><g:formatBoolean boolean="${bidInstance?.winner}" /></span>
-					
-				</li>
-				</g:if>
+
 			
 			</ol>
 			<g:form url="[resource:bidInstance, action:'delete']" method="DELETE">

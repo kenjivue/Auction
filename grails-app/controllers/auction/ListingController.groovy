@@ -3,7 +3,7 @@ package auction
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
-
+import auction.Bid
 @Transactional(readOnly = true)
 class ListingController {
 
@@ -17,16 +17,24 @@ class ListingController {
     def show(Listing listingInstance) {
         respond listingInstance
     }
-def Bids(Long listingId) {
-    Listing curlisting = Listing.findById(listingId)
-    if (!curlisting) {
-        response.sendError(404)
-    } else {
-        Integer max = 10
-        params.max = Math.min(max ?: 10, 100)
-        respond curlisting.list(params), model: [listingInstanceCount: Listing.count()]
+    def getBids(params) {
+        Listing listingInstance = params.listingInstance
+        Bid bidList = Bid.findByListing(listingInstance)
+        if (!bidList) {
+            response.sendError(404)
+        } else {
+
+        respond bidList.getAmount().max()
     }
 }
+    def createNewBid(){
+        def listing = Listing.get(params.id)
+        if(!listing){
+            redirect(controller: "bidding",action: "create")
+        }else{
+            redirect(controller: "bidding",action: "create",id:listing.id)
+        }
+    }
     def create() {
         respond new Listing(params)
     }

@@ -32,8 +32,6 @@
 					
 						<th><g:message code="bid.listing.label" default="Listing" /></th>
 					
-						<g:sortableColumn property="winner" title="${message(code: 'bid.winner.label', default: 'Winner')}" />
-					
 					</tr>
 				</thead>
 				<tbody>
@@ -47,8 +45,6 @@
 						<td><g:formatDate date="${bidInstance.bidDate}" /></td>
 					
 						<td>${fieldValue(bean: bidInstance, field: "listing")}</td>
-					
-						<td><g:formatBoolean boolean="${bidInstance.winner}" /></td>
 					
 					</tr>
 				</g:each>
