@@ -35,7 +35,7 @@
 						<g:sortableColumn property="datecreated" title="${message(code: 'review.datecreated.label', default: 'Datecreated')}" />
 					
 						<g:sortableColumn property="thumbsUp" title="${message(code: 'review.thumbsUp.label', default: 'Thumbs Up')}" />
-					
+
 					</tr>
 				</thead>
 				<tbody>
@@ -53,6 +53,7 @@
 						<td><g:formatDate date="${reviewInstance.datecreated}" /></td>
 					
 						<td><g:formatBoolean boolean="${reviewInstance.thumbsUp}" /></td>
+
 					
 					</tr>
 				</g:each>

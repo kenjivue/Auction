@@ -48,7 +48,8 @@ body {
 }
 
 #grailsLogo {
-	background-color: lightsteelblue;
+	background-image: url(../images/batmobile.png);
+
 }
 
 /* replace with .no-boxshadow body if you have modernizr available */

@@ -13,8 +13,17 @@
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
 				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+
 			</ul>
+			<g:form name="find" action="find" controller="listing">
+			<br/>Listing:
+			<input type="text" name="filter"/>
+			<button>Find</button>
+			Show Completed Listings:
+			<g:checkBox name="completed"/>
+		</g:form>
 		</div>
+
 		<div id="list-listing" class="content scaffold-list" role="main">
 			<h1><g:message code="default.list.label" args="[entityName]" /></h1>
 			<g:if test="${flash.message}">
@@ -31,8 +40,9 @@
 						<g:sortableColumn property="startingPrice" title="${message(code: 'listing.startingPrice.label', default: 'Starting Price')}" />
 					
 						<g:sortableColumn property="startDate" title="${message(code: 'listing.startDate.label', default: 'Start Date')}" />
-					
+						<g:sortableColumn property="endDate" title="${message(code: 'listing.endDate.label', default: 'End Date')}" />
 						<th><g:message code="listing.deliveredby.label" default="Deliveredby" /></th>
+
 					
 					</tr>
 				</thead>
@@ -47,8 +57,9 @@
 						<td>${fieldValue(bean: listingInstance, field: "startingPrice")}</td>
 					
 						<td><g:formatDate date="${listingInstance.startDate}" /></td>
-					
+						<td><g:formatDate date="${listingInstance.endDate}" /></td>
 						<td>${fieldValue(bean: listingInstance, field: "deliveredby")}</td>
+
 					
 					</tr>
 				</g:each>

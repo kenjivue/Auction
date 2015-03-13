@@ -1,39 +1,40 @@
 package auction
 
-
+import org.h2.api.DatabaseEventListener
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
+import groovy.time.TimeCategory
 import auction.Bid
 @Transactional(readOnly = true)
 class ListingController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
+    def Bids(Listing listingInstance){
+        return listingInstance.bids.count()
+    }
+
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond Listing.list(params), model: [listingInstanceCount: Listing.count()]
+        def today = new Date()
+        def current = Listing.where{ endDate >= today}
+        respond current.list(params), model: [listingInstanceCount: current.count()]
     }
+    def find(String filter, boolean completed, Integer max){
+        params.max=Math.min(max?:10,100)
+        def today=new Date()
 
+        if(completed){
+            def completedListings = Listing.where{(listingName ==~ "%${params.filter}%"|| listingDescription  ==~ "%${params.filter}%") && endDate < today }
+            respond completedListings.list(params), model: [listingInstanceCount: completedListings.size()],view :'index'
+        }else{
+            def completedListings = Listing.where{(listingName ==~ "%${params.filter}%"|| listingDescription  ==~ "%${params.filter}%") && endDate >= today }
+            respond completedListings.list(params), model: [listingInstanceCount: completedListings.size()],view :'index'
+        }
+
+    }
     def show(Listing listingInstance) {
         respond listingInstance
-    }
-    def getBids(params) {
-        Listing listingInstance = params.listingInstance
-        Bid bidList = Bid.findByListing(listingInstance)
-        if (!bidList) {
-            response.sendError(404)
-        } else {
-
-        respond bidList.getAmount().max()
-    }
-}
-    def createNewBid(){
-        def listing = Listing.get(params.id)
-        if(!listing){
-            redirect(controller: "bidding",action: "create")
-        }else{
-            redirect(controller: "bidding",action: "create",id:listing.id)
-        }
     }
     def create() {
         respond new Listing(params)
@@ -45,7 +46,7 @@ class ListingController {
             notFound()
             return
         }
-
+        listingInstance.endDate=listingInstance.startDate.plus(listingInstance.listingDays)
         if (listingInstance.hasErrors()) {
             respond listingInstance.errors, view: 'create'
             return
@@ -72,7 +73,9 @@ class ListingController {
             notFound()
             return
         }
-
+        if (listingInstance.endDate==null){
+            listingInstance.endDate=listingInstance.startDate.plus(listingInstance.listingDays)
+        }
         if (listingInstance.hasErrors()) {
             respond listingInstance.errors, view: 'edit'
             return

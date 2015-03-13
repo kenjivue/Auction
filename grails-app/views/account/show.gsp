@@ -1,5 +1,5 @@
 
-<%@ page import="auction.Account" %>
+<%@ page import="auction.ReviewType; auction.Account" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -21,6 +21,9 @@
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
+			<table>
+				<tr><th>Account Details</th><th>Reviews</th></tr>
+				<tr><td>
 			<ol class="property-list account">
 			
 				<g:if test="${accountInstance?.email}">
@@ -50,15 +53,6 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${accountInstance?.address}">
-				<li class="fieldcontain">
-					<span id="address-label" class="property-label"><g:message code="account.address.label" default="Address" /></span>
-					
-						<span class="property-value" aria-labelledby="address-label"><g:link controller="address" action="show" id="${accountInstance?.address?.id}">${accountInstance?.address?.encodeAsHTML()}</g:link></span>
-					
-				</li>
-				</g:if>
-			
 				<g:if test="${accountInstance?.dateCreated}">
 				<li class="fieldcontain">
 					<span id="dateCreated-label" class="property-label"><g:message code="account.dateCreated.label" default="Date Created" /></span>
@@ -78,6 +72,40 @@
 				</g:if>
 			
 			</ol>
+			</td><td>
+
+					<div class="property-list account">
+
+						<table><tr><th>Reviewer</th><th>ThumbsUp</th><th>Comments</th></tr>
+						<tr>
+						<g:each in="${accountInstance.reviews}" var="rev">
+							<tr><td>
+								<h3>${rev.reviewer.name} </h3>
+							</td>
+							<td>
+								${fieldValue(bean: rev, field: "thumbsUp")}
+							</td>
+								<td>
+									${fieldValue(bean: rev, field: "comments")}
+								</td>
+							</tr>
+						</g:each>
+						</tr>
+						</table><br>
+
+					</div>
+
+			</td></tr></table>
+			<h1>Address</h1>
+			<div class="property-list account">
+				<g:each in="${accountInstance.address.sort{a,b->b.address1.compareTo(a.address1)}}" var="addr">
+					<h3>${fieldValue(bean: addr, field: "addressName")} </h3><br/>
+					${fieldValue(bean: addr, field: "address1")} <br/>
+					${fieldValue(bean: addr, field: "address2")} <br/>
+					${fieldValue(bean: addr, field: "city")},${fieldValue(bean: addr, field: "state")} ${fieldValue(bean: addr, field: "zip")} <br/> <br/>
+				</g:each>
+
+			</div>
 			<g:form url="[resource:accountInstance, action:'delete']" method="DELETE">
 				<fieldset class="buttons">
 					<g:link class="edit" action="edit" resource="${accountInstance}"><g:message code="default.button.edit.label" default="Edit" /></g:link>

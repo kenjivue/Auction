@@ -28,7 +28,7 @@
 					<span id="owner-label" class="property-label"><g:message code="listing.owner.label" default="Owner" /></span>
 					
 						<span class="property-value" aria-labelledby="owner-label"><g:link controller="account" action="show" id="${listingInstance?.owner?.id}">${listingInstance?.owner?.encodeAsHTML()}</g:link></span>
-					
+
 				</li>
 				</g:if>
 			
@@ -85,7 +85,14 @@
 					
 				</li>
 				</g:if>
-			
+				<g:if test="${listingInstance?.endDate}">
+					<li class="fieldcontain">
+						<span id="endDate-label" class="property-label"><g:message code="listing.endDate.label" default="End Date" /></span>
+
+						<span class="property-value" aria-labelledby="endDate-label"><g:formatDate date="${listingInstance?.endDate}" /></span>
+
+					</li>
+				</g:if>
 				<g:if test="${listingInstance?.listingDescription}">
 				<li class="fieldcontain">
 					<span id="listingDescription-label" class="property-label"><g:message code="listing.listingDescription.label" default="Listing Description" /></span>
@@ -96,7 +103,23 @@
 				</g:if>
 			
 			</ol>
+			<h1>Bids</h1>
+			<div>
+				<table>
+					<tr><th>Date</th><th>Bidder</th><th>Amount</th></tr>
 
+					<g:each in="${listingInstance.bids.sort{a,b->b.bidDate.compareTo(a.bidDate)}}" var="bids">
+						<tr>
+                    <td><g:formatDate date="${bids.bidDate}" /></td>
+						<td><g:link  controller="account" action="show" id="${bids.bidder.id}">${fieldValue(bean: bids.bidder, field: "name")}</g:link></td>
+						<td>${fieldValue(bean: bids, field: "amount")}</td>
+						</tr>
+					</g:each>
+
+				</table>
+
+
+			</div>
 			<g:form url="[resource:listingInstance, action:'delete']" method="DELETE">
 				<fieldset class="buttons">
 					<g:link class="edit" action="edit" resource="${listingInstance}"><g:message code="default.button.edit.label" default="Edit" /></g:link>

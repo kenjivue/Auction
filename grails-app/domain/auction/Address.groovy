@@ -2,6 +2,7 @@ package auction
 
 class Address {
     def scaffolding=true
+    String addressName
     String address1
     String address2
     String city
@@ -9,10 +10,11 @@ class Address {
     String zip
     Date datecreated=new Date()
     static constraints = {
-        address1(nullable:false)
-        address2(nullable:true)
-        city(nullable: false)
-        state(nullable: false)
-        zip(nullable: false)
+        addressName(nullable: true, blank:true)
+        address1(nullable:false, blank:false)
+        address2(nullable:true, blank:true)
+        city(nullable: false, blank:false)
+        state(nullable: false, blank:false)
+        zip(nullable: false, blank:false)
     }
 }

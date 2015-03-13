@@ -5,10 +5,9 @@ class Account {
     String name
     String password
     String email
-    Address address
     Date dateCreated=new Date()
     Date dateUpdated=new Date()
-    static hasMany = [reviews: Review]
+    static hasMany = [reviews: Review,address: Address]
     static constraints = {
         email(nullable: false, email: true)
         password(blank: false, nullable: false, size:6..16, validator: {password, obj ->

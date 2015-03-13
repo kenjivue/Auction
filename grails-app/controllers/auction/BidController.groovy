@@ -1,7 +1,5 @@
 package auction
 
-
-
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
@@ -14,23 +12,30 @@ class BidController {
         params.max = Math.min(max ?: 10, 100)
         respond Bid.list(params), model:[bidInstanceCount: Bid.count()]
     }
-    def list(){
+    def list(Listing listingInstance){
+        Bid bidList =Bid.findByListing(listingInstance)
+    if (!bidList){
+        response.sendError(404)
+    }
+        Bid currentbid = bidList.where{
+            amount==max(amount)
+        }
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [bidList: Bid.list(params), bidTotal: Bid.count()]
+        [bidList:bidlist, bidTotal: Bid.count(), bidcurrent:currentbid.amount ]
     }
     def show(Bid bidInstance) {
         respond bidInstance
     }
-
     def create() {
-        def list=Listing.findById(params.id)
-        if(!list){
+        def listing=Listing.findById(params.id)
+        if(!listing){
             response.sendError(404)
         }else{
-            def bid=new Bid(listing:list)
+            def bid=new Bid(Listing:listing)
             respond bid
         }
     }
+
     @Transactional
     def save(Bid bidInstance) {
         if (bidInstance == null) {
