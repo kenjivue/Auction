@@ -3,8 +3,11 @@ import auction.Address
 import auction.Delivery
 import auction.Listing
 import auction.Review
-import auction.ReviewType
 import auction.Bid
+import auction.Role
+import auction.User
+import auction.UserRole
+
 class BootStrap {
 
     def init = { servletContext ->
@@ -20,20 +23,44 @@ class BootStrap {
 
     def LoadData() {
         println('Generating Test Data')
+        ['ROLE_ADMIN', 'ROLE_USER'].each {
+            if (!Role.findByAuthority(it)) {
+                new Role(authority: it).save(flush: true, failOnError: true)
+            }
+        }
+        def user1 = new User(username: 'kenjivue', password: 'sdfjks7898').save(flush: true)
+        def user2 = new User(username: 'BruceWayne', password: 'Batman589').save(flush: true)
+        def user3 = new User(username: 'OswaldCobblePot', password: 'penguin666').save(flush: true)
+        def user4 = new User(username: 'JimGordon', password: 'C0mi55ioner').save(flush: true)
+        def user5 = new User(username: 'EdwardNigma', password: 'R1dddlemeThis').save(flush: true)
+        def user6 = new User(username: 'FishMooney', password: 'GanstaB1t').save(flush: true)
+        def user7 = new User(username: 'BarbaraGordon', password: 'Batgirl65').save(flush: true)
+        def user8 = new User(username: 'DickGrayson', password: 'NightWing95').save(flush: true)
+
         Address add1 = new Address(addressName:"Home",address1: '5342 Northport Dr', city: 'Brooklyn Center', state: 'MN', zip: '55429').save(failOnError: true, flush: true)
         Address add2= new Address(addressName:"Wayne Manor",address1: '1000 Wayne Manor Dr', city: 'Gotham City', state: 'NY', zip: '54353').save(failOnError: true, flush: true)
         Address add3 = new Address(addressName:"Arkham Asylum",address1: '220 Arkham Rd', city: 'Gotham City', state: 'NY', zip: '54353').save(failOnError: true, flush: true)
         Address add4= new Address(addressName:"Watch Tower",address1: '1212 Watchtower st', city: 'Gotham City', state: 'NY', zip: '54353').save(failOnError: true, flush: true)
         Address add5= new Address(addressName:"City Hall",address1: '1212 Main St', city: 'Gotham City', state: 'NY', zip: '54353').save(failOnError: true, flush: true)
 
-        Account acc1 = new Account(name: 'Kenji Vue', password: 'sdfjks7898', email: 'kenjivue@live.com', address: add1).save(failOnError: true, flush: true)
-        Account acc2 = new Account(name: 'Bruce Wayne', password: 'Batman589', email: 'batman@gotham.com',address: add2).save(failOnError: true, flush: true)
-        Account acc3 = new Account(name: 'Oswald CobblePot', password: 'penguin666', email: 'peguin@evil.com',address: add3).save(failOnError: true, flush: true)
-        Account acc4= new Account(name: 'Jim Gordon', password: 'C0mi55ioner', email: 'commish@gotham.com',address: add5).save(failOnError: true, flush: true)
-        Account acc5= new Account(name: 'Edward Nigma', password: 'R1dddlemeThis', email: 'Riddler@evil.com',address: add3).save(failOnError: true, flush: true)
-        Account acc6 = new Account(name: 'Fish Mooney', password: 'GanstaB1t**', email: 'gaasta@evil.com',address: add3).save(failOnError: true, flush: true)
-        Account acc7 = new Account(name: 'Barbara Gordon', password: 'Batgirl65', email: 'batgirl@batfamily.com',address: add4).save(failOnError: true, flush: true)
-        Account acc8= new Account(name: 'Dick Grayson', password: 'NightWing95', email: 'robin@batfamily.com',address: add4).save(failOnError: true, flush: true)
+        Account acc1 = new Account(user: user1, name: 'Kenji Vue',  email: 'kenjivue@live.com', address: add1).save(failOnError: true, flush: true)
+        Account acc2 = new Account(user: user2,name: 'Bruce Wayne',  email: 'batman@gotham.com',address: add2).save(failOnError: true, flush: true)
+        Account acc3 = new Account(user: user3,name: 'Oswald CobblePot',   email: 'peguin@evil.com',address: add3).save(failOnError: true, flush: true)
+        Account acc4= new Account(user: user4,name: 'Jim Gordon',   email: 'commish@gotham.com',address: add5).save(failOnError: true, flush: true)
+        Account acc5= new Account(user: user5,name: 'Edward Nigma',  email: 'Riddler@evil.com',address: add3).save(failOnError: true, flush: true)
+        Account acc6 = new Account(user: user6,name: 'Fish Mooney',   email: 'gaasta@evil.com',address: add3).save(failOnError: true, flush: true)
+        Account acc7 = new Account(user: user7,name: 'Barbara Gordon',   email: 'batgirl@batfamily.com',address: add4).save(failOnError: true, flush: true)
+        Account acc8= new Account(user: user8,name: 'Dick Grayson',  email: 'robin@batfamily.com',address: add4).save(failOnError: true, flush: true)
+        new UserRole(user:user1,role:Role.findByAuthority('ROLE_ADMIN'))
+         new UserRole(user:user2,role:Role.findByAuthority('ROLE_USER'))
+         new UserRole(user:user3,role:Role.findByAuthority('ROLE_USER'))
+         new UserRole(user:user4,role:Role.findByAuthority('ROLE_USER'))
+         new UserRole(user:user5,role:Role.findByAuthority('ROLE_USER'))
+         new UserRole(user:user6,role:Role.findByAuthority('ROLE_USER'))
+         new UserRole(user:user7,role:Role.findByAuthority('ROLE_USER'))
+         new UserRole(user:user8,role:Role.findByAuthority('ROLE_USER'))
+
+
 
         Delivery del1= new Delivery(delivery: 'US Only').save(failOnError: true, flush: true)
         Delivery del2= new Delivery(delivery: 'Worldwide').save(failOnError: true, flush: true)
@@ -51,16 +78,15 @@ class BootStrap {
            listingDays: 20, startDate: new Date().minus(6),startingPrice: 2500,owner: acc7,deliveredby: del3, endDate: new Date().plus(20)).save(failOnError: true, flush: true)
         Listing list6=new Listing(listingName: 'Top Hat',listingDescription:'Crushed Top hat.  Severly damaged from pummeling.',
             listingDays: 20, startDate: new Date().minus(5),startingPrice: 10,owner: acc5,deliveredby: del1, endDate: new Date().plus(20)).save(failOnError: true, flush: true)
-        ReviewType rt = new ReviewType(reviewtype: 'Seller').save(failOnError: true, flush: true)
-        ReviewType rt2 = new ReviewType(reviewtype: 'Buyer').save(failOnError: true, flush: true)
-        Review r1 = new Review(reviewer: acc1, reviewType: rt, account: acc3, comments: 'Horrible Customer Service - Kept wanting to eat fish', thumbsUp: false).save(failOnError: true, flush: true)
-        Review r2 = new Review(reviewer: acc2, reviewType: rt, account: acc2, comments: 'Awesome', thumbsUp: true).save(failOnError: true, flush: true)
-        Review r3 = new Review(reviewer: acc3, reviewType: rt2, account: acc4, comments: 'Sold cheap crap', thumbsUp: false).save(failOnError: true, flush: true)
-        Review r4 = new Review(reviewer: acc3, reviewType: rt, account: acc6, comments: 'Nice', thumbsUp: true).save(failOnError: true, flush: true)
-        Review r5 = new Review(reviewer: acc4, reviewType: rt, account: acc5, comments: '', thumbsUp: false).save(failOnError: true, flush: true)
-        Review r6 = new Review(reviewer: acc6, reviewType: rt2, account: acc4, comments: 'Happy with my purchase', thumbsUp: false).save(failOnError: true, flush: true)
-        Review r7 = new Review(reviewer: acc8, reviewType: rt, account: acc4, comments: 'Good Feedback', thumbsUp: true).save(failOnError: true, flush: true)
-        Review r8 = new Review(reviewer: acc7, reviewType: rt2, account: acc3, comments: 'Did not pay n time', thumbsUp: false).save(failOnError: true, flush: true)
+
+        Review r1 = new Review(reviewer: acc1, reviewType: 'Seller', account: acc3, comments: 'Horrible Customer Service - Kept wanting to eat fish', thumbsUp: false).save(failOnError: true, flush: true)
+        Review r2 = new Review(reviewer: acc2, reviewType: 'Seller', account: acc2, comments: 'Awesome', thumbsUp: true).save(failOnError: true, flush: true)
+        Review r3 = new Review(reviewer: acc3, reviewType: 'Buyer', account: acc4, comments: 'Sold cheap crap', thumbsUp: false).save(failOnError: true, flush: true)
+        Review r4 = new Review(reviewer: acc3, reviewType: 'Seller', account: acc6, comments: 'Nice', thumbsUp: true).save(failOnError: true, flush: true)
+        Review r5 = new Review(reviewer: acc4, reviewType: 'Seller', account: acc5, comments: '', thumbsUp: false).save(failOnError: true, flush: true)
+        Review r6 = new Review(reviewer: acc6, reviewType: 'Buyer', account: acc4, comments: 'Happy with my purchase', thumbsUp: false).save(failOnError: true, flush: true)
+        Review r7 = new Review(reviewer: acc8, reviewType: 'Seller', account: acc4, comments: 'Good Feedback', thumbsUp: true).save(failOnError: true, flush: true)
+        Review r8 = new Review(reviewer: acc7, reviewType: 'Buyer', account: acc3, comments: 'Did not pay n time', thumbsUp: false).save(failOnError: true, flush: true)
         //println(list1.startDate)
         //println(list1.endDate)
         Bid b1 = new Bid(amount: 50000.75, bidder:acc1, listing: list1, bidDate: new Date().minus(19)).save(failOnError: true, flush: true)

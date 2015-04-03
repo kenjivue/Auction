@@ -25,8 +25,7 @@
 					<tr>
 					
 						<g:sortableColumn property="email" title="${message(code: 'account.email.label', default: 'Email')}" />
-					
-						<g:sortableColumn property="password" title="${message(code: 'account.password.label', default: 'Password')}" />
+
 					
 						<g:sortableColumn property="name" title="${message(code: 'account.name.label', default: 'Name')}" />
 					
@@ -44,15 +43,15 @@
 					
 						<td><g:link action="show" id="${accountInstance.id}">${fieldValue(bean: accountInstance, field: "email")}</g:link></td>
 					
-						<td>${fieldValue(bean: accountInstance, field: "password")}</td>
+
 					
 						<td>${fieldValue(bean: accountInstance, field: "name")}</td>
 					
-						<td>${fieldValue(bean: accountInstance, field: "address")}</td>
+						<td>${accountInstance.address.addressName}</td>
 					
-						<td><g:formatDate date="${accountInstance.dateCreated}" /></td>
+						<td> ${accountInstance.dateCreated} </td>
 					
-						<td><g:formatDate date="${accountInstance.dateUpdated}" /></td>
+						<td>${accountInstance.dateUpdated}  </td>
 					
 					</tr>
 				</g:each>

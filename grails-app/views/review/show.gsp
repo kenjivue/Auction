@@ -27,7 +27,7 @@
 				<li class="fieldcontain">
 					<span id="reviewType-label" class="property-label"><g:message code="review.reviewType.label" default="Review Type" /></span>
 					
-						<span class="property-value" aria-labelledby="reviewType-label"><g:link controller="reviewType" action="show" id="${reviewInstance?.reviewType?.id}">${reviewInstance?.reviewType?.encodeAsHTML()}</g:link></span>
+						<span class="property-value" aria-labelledby="reviewType-label"><g:fieldValue bean="${reviewInstance}" field="reviewType"/></span>
 					
 				</li>
 				</g:if>
@@ -36,7 +36,7 @@
 				<li class="fieldcontain">
 					<span id="account-label" class="property-label"><g:message code="review.account.label" default="Account" /></span>
 					
-						<span class="property-value" aria-labelledby="account-label"><g:link controller="account" action="show" id="${reviewInstance?.account?.id}">${reviewInstance?.account?.encodeAsHTML()}</g:link></span>
+						<span class="property-value" aria-labelledby="account-label"><g:link controller="account" action="show" id="${reviewInstance?.account?.id}">${reviewInstance?.account?.name}</g:link></span>
 					
 				</li>
 				</g:if>
@@ -45,7 +45,7 @@
 				<li class="fieldcontain">
 					<span id="reviewer-label" class="property-label"><g:message code="review.reviewer.label" default="Reviewer" /></span>
 					
-						<span class="property-value" aria-labelledby="reviewer-label"><g:link controller="account" action="show" id="${reviewInstance?.reviewer?.id}">${reviewInstance?.reviewer?.encodeAsHTML()}</g:link></span>
+						<span class="property-value" aria-labelledby="reviewer-label"><g:link controller="account" action="show" id="${reviewInstance?.reviewer?.id}">${reviewInstance?.reviewer?.name}</g:link></span>
 					
 				</li>
 				</g:if>
@@ -59,11 +59,11 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${reviewInstance?.datecreated}">
+				<g:if test="${reviewInstance?.dateCreated}">
 				<li class="fieldcontain">
-					<span id="datecreated-label" class="property-label"><g:message code="review.datecreated.label" default="Datecreated" /></span>
+					<span id="dateCreated-label" class="property-label"><g:message code="review.dateCreated.label" default="Date Created" /></span>
 					
-						<span class="property-value" aria-labelledby="datecreated-label"><g:formatDate date="${reviewInstance?.datecreated}" /></span>
+						<span class="property-value" aria-labelledby="dateCreated-label"><g:formatDate date="${reviewInstance?.dateCreated}" /></span>
 					
 				</li>
 				</g:if>

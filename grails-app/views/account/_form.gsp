@@ -11,15 +11,6 @@
 
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: accountInstance, field: 'password', 'error')} required">
-	<label for="password">
-		<g:message code="account.password.label" default="Password" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:textField name="password" maxlength="16" required="" value="${accountInstance?.password}"/>
-
-</div>
-
 <div class="fieldcontain ${hasErrors(bean: accountInstance, field: 'name', 'error')} required">
 	<label for="name">
 		<g:message code="account.name.label" default="Name" />
@@ -34,7 +25,7 @@
 		<g:message code="account.address.label" default="Address" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:select id="address" name="address.id" from="${auction.Address.list()}" optionKey="id" required="" value="${accountInstance?.address?.id}" class="many-to-one"/>
+	<g:select name="address" from="${auction.Address.list()}" multiple="multiple" optionKey="id" size="5" required="" value="${accountInstance?.address*.id}" class="many-to-many"/>
 
 </div>
 
@@ -44,6 +35,33 @@
 		<span class="required-indicator">*</span>
 	</label>
 	<g:datePicker name="dateUpdated" precision="day"  value="${accountInstance?.dateUpdated}"  />
+
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: accountInstance, field: 'reviews', 'error')} ">
+	<label for="reviews">
+		<g:message code="account.reviews.label" default="Reviews" />
+		
+	</label>
+	
+<ul class="one-to-many">
+<g:each in="${accountInstance?.reviews?}" var="r">
+    <li><g:link controller="review" action="show" id="${r.id}">${r?.encodeAsHTML()}</g:link></li>
+</g:each>
+<li class="add">
+<g:link controller="review" action="create" params="['account.id': accountInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'review.label', default: 'Review')])}</g:link>
+</li>
+</ul>
+
+
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: accountInstance, field: 'user', 'error')} required">
+	<label for="user">
+		<g:message code="account.user.label" default="User" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:select id="user" name="user.id" from="${auction.User.list()}" optionKey="id" required="" value="${accountInstance?.user?.id}" class="many-to-one"/>
 
 </div>
 

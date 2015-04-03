@@ -7,7 +7,7 @@
 		<g:message code="review.reviewType.label" default="Review Type" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:select id="reviewType" name="reviewType.id" from="${auction.ReviewType.list()}" optionKey="id" required="" value="${reviewInstance?.reviewType?.id}" class="many-to-one"/>
+	<g:select name="reviewType" from="${reviewInstance.constraints.reviewType.inList}" required="" value="${reviewInstance?.reviewType}" valueMessagePrefix="review.reviewType"/>
 
 </div>
 
@@ -29,21 +29,12 @@
 
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: reviewInstance, field: 'comments', 'error')} required">
+<div class="fieldcontain ${hasErrors(bean: reviewInstance, field: 'comments', 'error')} ">
 	<label for="comments">
 		<g:message code="review.comments.label" default="Comments" />
-		<span class="required-indicator">*</span>
+		
 	</label>
-	<g:textField name="comments" required="" value="${reviewInstance?.comments}"/>
-
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: reviewInstance, field: 'datecreated', 'error')} required">
-	<label for="datecreated">
-		<g:message code="review.datecreated.label" default="Datecreated" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:datePicker name="datecreated" precision="day"  value="${reviewInstance?.datecreated}"  />
+	<g:textField name="comments" value="${reviewInstance?.comments}"/>
 
 </div>
 

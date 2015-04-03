@@ -5,11 +5,11 @@ class Review {
     Account account
     String comments
     boolean thumbsUp
-    Date datecreated = new Date()
-    ReviewType reviewType
+    Date dateCreated = new Date()
+    String reviewType
     static belongsTo = [reviewer: Account]
     static constraints = {
-        reviewType(nullable: false)
+        reviewType nullable: false, inList: ['Seller','Buyer']
         account(nullable: false)
         reviewer(nullable: false )
         comments(nullable: true)

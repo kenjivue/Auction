@@ -24,7 +24,7 @@
 			<thead>
 					<tr>
 					
-						<th><g:message code="review.reviewType.label" default="Review Type" /></th>
+						<g:sortableColumn property="reviewType" title="${message(code: 'review.reviewType.label', default: 'Review Type')}" />
 					
 						<th><g:message code="review.account.label" default="Account" /></th>
 					
@@ -32,10 +32,10 @@
 					
 						<g:sortableColumn property="comments" title="${message(code: 'review.comments.label', default: 'Comments')}" />
 					
-						<g:sortableColumn property="datecreated" title="${message(code: 'review.datecreated.label', default: 'Datecreated')}" />
+						<g:sortableColumn property="dateCreated" title="${message(code: 'review.dateCreated.label', default: 'Date Created')}" />
 					
 						<g:sortableColumn property="thumbsUp" title="${message(code: 'review.thumbsUp.label', default: 'Thumbs Up')}" />
-
+					
 					</tr>
 				</thead>
 				<tbody>
@@ -44,16 +44,15 @@
 					
 						<td><g:link action="show" id="${reviewInstance.id}">${fieldValue(bean: reviewInstance, field: "reviewType")}</g:link></td>
 					
-						<td>${fieldValue(bean: reviewInstance, field: "account")}</td>
+						<td>${reviewInstance.account.name}</td>
 					
-						<td>${fieldValue(bean: reviewInstance, field: "reviewer")}</td>
+						<td>${reviewInstance.reviewer.name}</td>
 					
 						<td>${fieldValue(bean: reviewInstance, field: "comments")}</td>
 					
-						<td><g:formatDate date="${reviewInstance.datecreated}" /></td>
+						<td><g:formatDate date="${reviewInstance.dateCreated}" /></td>
 					
 						<td><g:formatBoolean boolean="${reviewInstance.thumbsUp}" /></td>
-
 					
 					</tr>
 				</g:each>

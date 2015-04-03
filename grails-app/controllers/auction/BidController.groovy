@@ -1,11 +1,12 @@
 package auction
 
+import grails.plugin.springsecurity.annotation.Secured
+
 import static org.springframework.http.HttpStatus.*
-import grails.transaction.Transactional
 
-@Transactional(readOnly = true)
 class BidController {
-
+    static responseFormats = ['json']
+    def springSecurityService
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
@@ -26,18 +27,27 @@ class BidController {
     def show(Bid bidInstance) {
         respond bidInstance
     }
+    @Secured(closure = {
+        def username = request.requestURI.substring(request.requestURI.lastIndexOf('/')+1)
+        authentication.principal.username == username
+    }, httpMethod = 'PUT')
     def create() {
+        Account account=Account.findByUser(springSecurityService.currentUser as User)
         def listing=Listing.findById(params.id)
-        if(!listing){
+        Bid bidList =Bid.findByListing(listing)
+        Bid currentbid = bidList.where{
+            amount==max(amount)
+        }
+        if(!listing || currentbid.amount<params.amount-0.5){
             response.sendError(404)
         }else{
-            def bid=new Bid(Listing:listing)
+            def bid=new Bid(Listing:listing, amount: params.amount, bidder:account )
             respond bid
         }
     }
 
-    @Transactional
     def save(Bid bidInstance) {
+
         if (bidInstance == null) {
             notFound()
             return
@@ -63,7 +73,6 @@ class BidController {
         respond bidInstance
     }
 
-    @Transactional
     def update(Bid bidInstance) {
         if (bidInstance == null) {
             notFound()
@@ -86,7 +95,6 @@ class BidController {
         }
     }
 
-    @Transactional
     def delete(Bid bidInstance) {
 
         if (bidInstance == null) {
