@@ -7,11 +7,16 @@ import geb.Page
  */
 class BidPage extends Page {
 
-    static url = 'login/auth'
+    static url = 'bid/get/${id}'
+
+    static at = {
+        title == 'Bids'
+    }
 
     static content = {
-        username { $("#username") }
-        password { $("#password ") }
-        submit { $("#submit") }
+        listing { $('#Listing') }
+        bidder { $('#bidder') }
+        amount { $('#amoudatent') }
+        bidDate { $('#bid') }
     }
 }

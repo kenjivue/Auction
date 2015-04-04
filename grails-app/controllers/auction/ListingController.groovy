@@ -2,13 +2,14 @@ package auction
 
 import org.h2.api.DatabaseEventListener
 import static org.springframework.http.HttpStatus.*
-import grails.transaction.Transactional
+import grails.plugin.springsecurity.annotation.Secured
+
+import static org.springframework.http.HttpStatus.*
 import groovy.time.TimeCategory
 import auction.Bid
-@Transactional(readOnly = true)
 class ListingController {
-
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    def springSecurityService
+    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE",index:"GET"]
 
     def Bids(Listing listingInstance){
         return listingInstance.bids.count()
@@ -40,12 +41,13 @@ class ListingController {
         respond new Listing(params)
     }
 
-    @Transactional
     def save(Listing listingInstance) {
         if (listingInstance == null) {
             notFound()
             return
         }
+        Account acc=Account.findByUser(springSecurityService.currentUser as User)
+        listingInstance.owner=acc
         listingInstance.endDate=listingInstance.startDate.plus(listingInstance.listingDays)
         if (listingInstance.hasErrors()) {
             respond listingInstance.errors, view: 'create'
@@ -67,7 +69,6 @@ class ListingController {
         respond listingInstance
     }
 
-    @Transactional
     def update(Listing listingInstance) {
         if (listingInstance == null) {
             notFound()
@@ -92,7 +93,6 @@ class ListingController {
         }
     }
 
-    @Transactional
     def delete(Listing listingInstance) {
 
         if (listingInstance == null) {

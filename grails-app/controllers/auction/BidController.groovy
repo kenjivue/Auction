@@ -7,14 +7,15 @@ import static org.springframework.http.HttpStatus.*
 class BidController {
     static responseFormats = ['json']
     def springSecurityService
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    static allowedMethods = [create: "POST", update: "PUT", delete: "DELETE", get:"GET"]
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
         respond Bid.list(params), model:[bidInstanceCount: Bid.count()]
     }
-    def list(Listing listingInstance){
-        Bid bidList =Bid.findByListing(listingInstance)
+    def get(){
+        Long bidid = params.id
+        Bid bidList =Bid.findById(bidid)
     if (!bidList){
         response.sendError(404)
     }
@@ -27,10 +28,7 @@ class BidController {
     def show(Bid bidInstance) {
         respond bidInstance
     }
-    @Secured(closure = {
-        def username = request.requestURI.substring(request.requestURI.lastIndexOf('/')+1)
-        authentication.principal.username == username
-    }, httpMethod = 'PUT')
+    @Secured("ROLE_USER")
     def create() {
         Account account=Account.findByUser(springSecurityService.currentUser as User)
         def listing=Listing.findById(params.id)
@@ -38,14 +36,13 @@ class BidController {
         Bid currentbid = bidList.where{
             amount==max(amount)
         }
-        if(!listing || currentbid.amount<params.amount-0.5){
+        if(!listing || currentbid.amount<params.amount-0.5 || listing.owner == account){
             response.sendError(404)
         }else{
             def bid=new Bid(Listing:listing, amount: params.amount, bidder:account )
             respond bid
         }
     }
-
     def save(Bid bidInstance) {
 
         if (bidInstance == null) {

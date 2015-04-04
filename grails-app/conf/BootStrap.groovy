@@ -1,6 +1,5 @@
 import auction.Account
 import auction.Address
-import auction.Delivery
 import auction.Listing
 import auction.Review
 import auction.Bid
@@ -61,32 +60,22 @@ class BootStrap {
          new UserRole(user:user8,role:Role.findByAuthority('ROLE_USER'))
 
 
-
-        Delivery del1= new Delivery(delivery: 'US Only').save(failOnError: true, flush: true)
-        Delivery del2= new Delivery(delivery: 'Worldwide').save(failOnError: true, flush: true)
-        Delivery del3= new Delivery(delivery: 'Pick Up Only').save(failOnError: true, flush: true)
-
         Listing list1=new Listing(listingName: 'Batmobile',listingDescription:'Used Batmobile , heavily damaged from crimefighting:  This is a fixer-upper, recommended for enthusiasts',
-            listingDays: 20, startDate: new Date().minus(25),startingPrice: 50000,owner: acc2,deliveredby: del1,endDate: new Date().plus(20)).save(failOnError: true, flush: true)
+            listingDays: 20, startDate: new Date().minus(25),startingPrice: 50000,owner: acc2,deliveredby: 'US Only',endDate: new Date().plus(20)).save(failOnError: true, flush: true)
         Listing list2=new Listing(listingName: 'Umbrella',listingDescription:'Umbrella used to stab the mayor in the heart',
-          listingDays: 20, startDate: new Date().minus(9),startingPrice: 1000,owner: acc3,deliveredby: del2, endDate: new Date().plus(20)).save(failOnError: true, flush: true)
+          listingDays: 20, startDate: new Date().minus(9),startingPrice: 1000,owner: acc3,deliveredby: 'Worldwide', endDate: new Date().plus(20)).save(failOnError: true, flush: true)
         Listing list3=new Listing(listingName: 'Glock 65',listingDescription:'Brand new gun, never fired a single shot',
-           listingDays: 20, startDate: new Date().minus(8),startingPrice: 500,owner: acc4,deliveredby: del1, endDate: new Date().plus(20)).save(failOnError: true, flush: true)
+           listingDays: 20, startDate: new Date().minus(8),startingPrice: 500,owner: acc4,deliveredby: 'US Only', endDate: new Date().plus(20)).save(failOnError: true, flush: true)
         Listing list4=new Listing(listingName: 'Batarangs',listingDescription:'Set of 50 Batarangs, the perfect crime fighting tool!',
-            listingDays: 20, startDate: new Date().minus(7),startingPrice: 1000,owner: acc8,deliveredby: del1, endDate: new Date().plus(20)).save(failOnError: true, flush: true)
+            listingDays: 20, startDate: new Date().minus(7),startingPrice: 1000,owner: acc8,deliveredby: 'US Only', endDate: new Date().plus(20)).save(failOnError: true, flush: true)
         Listing list5=new Listing(listingName: 'Batgirl Costume',listingDescription:'Worn out crime fighting outfit.  major damage to the back area.  A  vintage collectors item',
-           listingDays: 20, startDate: new Date().minus(6),startingPrice: 2500,owner: acc7,deliveredby: del3, endDate: new Date().plus(20)).save(failOnError: true, flush: true)
+           listingDays: 20, startDate: new Date().minus(6),startingPrice: 2500,owner: acc7,deliveredby: 'Pickup Only', endDate: new Date().plus(20)).save(failOnError: true, flush: true)
         Listing list6=new Listing(listingName: 'Top Hat',listingDescription:'Crushed Top hat.  Severly damaged from pummeling.',
-            listingDays: 20, startDate: new Date().minus(5),startingPrice: 10,owner: acc5,deliveredby: del1, endDate: new Date().plus(20)).save(failOnError: true, flush: true)
+            listingDays: 20, startDate: new Date().minus(5),startingPrice: 10,owner: acc5,deliveredby: 'US Only', endDate: new Date().plus(20)).save(failOnError: true, flush: true)
+        //Completed Listings
+        Listing list7=new Listing(listingName: 'Shot Gun',listingDescription:'Blew 20 holes through Batmans cape',
+                listingDays: 3, startDate: new Date().minus(5),startingPrice: 10,owner: acc6,deliveredby: 'US Only', endDate: new Date().minus(2)).save(failOnError: true, flush: true)
 
-        Review r1 = new Review(reviewer: acc1, reviewType: 'Seller', account: acc3, comments: 'Horrible Customer Service - Kept wanting to eat fish', thumbsUp: false).save(failOnError: true, flush: true)
-        Review r2 = new Review(reviewer: acc2, reviewType: 'Seller', account: acc2, comments: 'Awesome', thumbsUp: true).save(failOnError: true, flush: true)
-        Review r3 = new Review(reviewer: acc3, reviewType: 'Buyer', account: acc4, comments: 'Sold cheap crap', thumbsUp: false).save(failOnError: true, flush: true)
-        Review r4 = new Review(reviewer: acc3, reviewType: 'Seller', account: acc6, comments: 'Nice', thumbsUp: true).save(failOnError: true, flush: true)
-        Review r5 = new Review(reviewer: acc4, reviewType: 'Seller', account: acc5, comments: '', thumbsUp: false).save(failOnError: true, flush: true)
-        Review r6 = new Review(reviewer: acc6, reviewType: 'Buyer', account: acc4, comments: 'Happy with my purchase', thumbsUp: false).save(failOnError: true, flush: true)
-        Review r7 = new Review(reviewer: acc8, reviewType: 'Seller', account: acc4, comments: 'Good Feedback', thumbsUp: true).save(failOnError: true, flush: true)
-        Review r8 = new Review(reviewer: acc7, reviewType: 'Buyer', account: acc3, comments: 'Did not pay n time', thumbsUp: false).save(failOnError: true, flush: true)
         //println(list1.startDate)
         //println(list1.endDate)
         Bid b1 = new Bid(amount: 50000.75, bidder:acc1, listing: list1, bidDate: new Date().minus(19)).save(failOnError: true, flush: true)
@@ -101,12 +90,15 @@ class BootStrap {
         Bid b10 = new Bid(amount: 50900.75, bidder:acc6, listing: list1, bidDate: new Date().minus(8)).save(failOnError: true, flush: true)
         Bid b11 = new Bid(amount: 51000.75, bidder:acc6, listing: list2, bidDate: new Date().plus(3)).save(failOnError: true, flush: true)
 
+        new Review(reviewer: acc1, reviewType: 'Seller', account: acc3, listing: list1, comments: 'Horrible Customer Service - Kept wanting to eat fish', thumbsUp: false).save(failOnError: true, flush: true)
+        new Review(reviewer: acc2, reviewType: 'Seller', account: acc2, listing: list2,comments: 'Awesome', thumbsUp: true).save(failOnError: true, flush: true)
+        new Review(reviewer: acc3, reviewType: 'Buyer', account: acc4,  listing: list2,comments: 'Sold cheap crap', thumbsUp: false).save(failOnError: true, flush: true)
+        new Review(reviewer: acc3, reviewType: 'Seller', account: acc6, listing: list2, comments: 'Nice', thumbsUp: true).save(failOnError: true, flush: true)
+        new Review(reviewer: acc4, reviewType: 'Seller', account: acc5, listing: list2, comments: '', thumbsUp: false).save(failOnError: true, flush: true)
+        new Review(reviewer: acc6, reviewType: 'Buyer', account: acc4, listing: list2, comments: 'Happy with my purchase', thumbsUp: false).save(failOnError: true, flush: true)
+        new Review(reviewer: acc8, reviewType: 'Seller', account: acc4, listing: list2, comments: 'Good Feedback', thumbsUp: true).save(failOnError: true, flush: true)
+        new Review(reviewer: acc7, reviewType: 'Buyer', account: acc3, listing: list2, comments: 'Did not pay n time', thumbsUp: false).save(failOnError: true, flush: true)
 
-
-        println('Accounts: ' + acc8.count().toString())
-        println('Addresses: ' + add5.count().toString())
-        println('Deliveries: '+del3.count().toString())
-        println('Listings: '+list1.count().toString())
     }
 
 }

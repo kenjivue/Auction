@@ -6,18 +6,18 @@ class Listing {
     Integer listingDays
     BigDecimal startingPrice
     Date startDate
-    Delivery deliveredby
+    String deliveredby
     Date dateCreated = new Date()
     static belongsTo = [owner: Account]
     Date endDate=null
-    static hasMany = [bids:Bid]
+    static hasMany = [bids:Bid, reviews: Review]
     static constraints = {
         owner(nullable: false)
         listingName(nullable: false)
         listingDays(nullable: false)
         startingPrice(min: 0.5, nullable: false)
         startDate(nullable: false)
-        deliveredby(nullable: false)
+        deliveredby(nullable: false, inList: ["US Only","Worldwide","Pickup Only"]) //refactored from class to arraylist
         endDate(nullable: true)
     }
 

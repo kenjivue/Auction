@@ -7,7 +7,7 @@ class Account {
     User user
     Date dateCreated=new Date()
     Date dateUpdated=new Date()
-    static hasMany = [reviews: Review,address: Address]
+    static hasMany = [address: Address]
     static constraints = {
         email(nullable: false, email: true)
         name(nullable: false,size:6..150)

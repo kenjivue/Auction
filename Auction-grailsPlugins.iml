@@ -47,6 +47,7 @@
       <sourceFolder url="file://$MODULE_DIR$/target/work/plugins/jquery-1.11.1/grails-app/services" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/target/work/plugins/jquery-1.11.1/grails-app/taglib" isTestSource="false" />
     </content>
+    <content url="file://$MODULE_DIR$/target/work/plugins/mongodb-3.0.2" />
     <content url="file://$MODULE_DIR$/target/work/plugins/platform-core-1.0.0">
       <sourceFolder url="file://$MODULE_DIR$/target/work/plugins/platform-core-1.0.0/src/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/target/work/plugins/platform-core-1.0.0/src/groovy" isTestSource="false" />

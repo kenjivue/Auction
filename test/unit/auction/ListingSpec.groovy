@@ -26,9 +26,6 @@ class ListingSpec extends Specification {
         Account acc7 = new Account(name: 'Barbara Gordon', password: 'Batgirl65', email: 'batgirl@batfamily.com',address: add4).save(failOnError: true, flush: true)
         Account acc8= new Account(name: 'Dick Grayson', password: 'NightWing95', email: 'robin@batfamily.com',address: add4).save(failOnError: true, flush: true)
 
-        Delivery del1= new Delivery(delivery: 'US Only').save(failOnError: true, flush: true)
-        Delivery del2= new Delivery(delivery: 'Worldwide').save(failOnError: true, flush: true)
-        Delivery del3= new Delivery(delivery: 'Pick Up Only').save(failOnError: true, flush: true)
 
     }
 

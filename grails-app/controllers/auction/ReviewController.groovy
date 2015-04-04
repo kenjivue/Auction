@@ -1,12 +1,14 @@
 package auction
 
 
+import org.h2.api.DatabaseEventListener
 import static org.springframework.http.HttpStatus.*
-import grails.transaction.Transactional
+import grails.plugin.springsecurity.annotation.Secured
 
-@Transactional(readOnly = true)
+import static org.springframework.http.HttpStatus.*
 class ReviewController {
-
+    static responseFormats = ['json']
+    def springSecurityService
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
@@ -17,18 +19,27 @@ class ReviewController {
     def show(Review reviewInstance) {
         respond reviewInstance
     }
-
+    @Secured(closure = {
+        def username = request.requestURI.substring(request.requestURI.lastIndexOf('/')+1)
+        authentication.principal.username == username
+    })
     def create() {
         respond new Review(params)
     }
-
-    @Transactional
+    @Secured(closure = {
+        def username = request.requestURI.substring(request.requestURI.lastIndexOf('/')+1)
+        authentication.principal.username == username
+    })
     def save(Review reviewInstance) {
         if (reviewInstance == null) {
             notFound()
             return
         }
-
+        reviewInstance.reviewer=springSecurityService.currentUser
+        if(reviewInstance.account==springSecurityService.currentUser){
+            Error error = new Error("404")
+             reviewInstance.errors.addAllErrors(true)
+        }
         if (reviewInstance.hasErrors()) {
             respond reviewInstance.errors, view: 'create'
             return
@@ -49,7 +60,6 @@ class ReviewController {
         respond reviewInstance
     }
 
-    @Transactional
     def update(Review reviewInstance) {
         if (reviewInstance == null) {
             notFound()
@@ -72,7 +82,6 @@ class ReviewController {
         }
     }
 
-    @Transactional
     def delete(Review reviewInstance) {
 
         if (reviewInstance == null) {

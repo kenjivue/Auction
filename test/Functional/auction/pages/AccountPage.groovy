@@ -14,8 +14,9 @@ class AccountPage extends Page {
     }
 
     static content = {
+        id {$('#id')}
         email { $('#email') }
-        username { $('#username') }
+        name { $('#name') }
         address { $('#address') }
         saveBtn { $('#save-btn') }
     }

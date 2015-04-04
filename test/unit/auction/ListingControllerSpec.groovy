@@ -13,7 +13,7 @@ import spock.lang.Specification
  * See the API for {@link grails.test.mixin.support.GrailsUnitTestMixin} for usage instructions
  */
 @TestFor(ListingController)
-@Mock([Account,Address,Delivery,Listing])
+@Mock([Account,Address,Listing])
 class ListingControllerSpec extends Specification {
 
     def setup() {
@@ -39,11 +39,9 @@ class ListingControllerSpec extends Specification {
         Account acc7 = new Account(name: 'Barbara Gordon', password: 'Batgirl65', email: 'batgirl@batfamily.com',address: add4).save(failOnError: true, flush: true)
         Account acc8= new Account(name: 'Dick Grayson', password: 'NightWing95', email: 'robin@batfamily.com',address: add4).save(failOnError: true, flush: true)
 
-        Delivery del1= new Delivery(delivery: 'US Only').save(failOnError: true, flush: true)
-        Delivery del2= new Delivery(delivery: 'Worldwide').save(failOnError: true, flush: true)
-        Delivery del3= new Delivery(delivery: 'Pick Up Only').save(failOnError: true, flush: true)
+
         Listing list1=new Listing(listingName: 'Batmobile',listingDescription:'Used Batmobile , heavily damaged from crimefighting:  This is a fixer-upper, recommended for enthusiasts',
-                listingDays: 20, startDate: new Date().minus(25),startingPrice: 50000,owner: acc2,deliveredby: del1,endDate: new Date().plus(20)).save(failOnError: true, flush: true)
+                listingDays: 20, startDate: new Date().minus(25),startingPrice: 50000,owner: acc2,deliveredby: "Worldwide",endDate: new Date().plus(20)).save(failOnError: true, flush: true)
         when:
         list1.setStartDate(sdate)
         list1.setDeliveredby(deliveredby)
@@ -56,19 +54,19 @@ class ListingControllerSpec extends Specification {
         then:
         list1.validate()==listvalidation
         where:
-        lname                       | ldescription              |listdays           |sdate              |sprice         |owner      |deliveredby    |listvalidation
-        'Valid Listing'             | 'Test listing Desc'       |120                | new Date()        |100.00         |acc1       |del1           |true
-        'No Description'            |null                       |50                 | new Date()        |100.00         |acc1       |del1           |true
-        'No days'                   | 'Test listing Desc'       |null               | new Date()        |100.00         |acc1       |del1           |false
-        'No StartDate'              | 'Test listing Desc'       |120                | null              |100.00         |acc1       |del1           |false
-        'No Start amount'           | 'Test listing Desc'       |120                | new Date()        |null           |acc1       |del1           |false
-        'No Owner'                  | 'Test listing Desc'       |120                | new Date()        |100.00         |null       |del1           |false
-        'No Delivery'               | 'Test listing Desc'       |120                | new Date()        |100.00         |acc1       |null           |false
-        'Start amount is Zero'      | 'Test listing Desc'       |120                | new Date()        |0              |acc1       |del1           |false
-        'StartDate is not a date '  | 'Test listing Desc'       |120                |'sdfsdsf'          |100            |acc1       |del1           |false
-        'listing days is not valid' | 123123    |'sfds'         |100                |new Date()         |-100           |acc1       |del1           |false
-        'Account is not valid'      | 'Test listing Desc'       |120                | new Date()        |100            |'Joe'      |del1           |false
-        'Start amount is negative'  | 'Test listing Desc'       |120                | new Date()        |-5000          |acc1       |del1           |false
+        lname                       | ldescription              |listdays           |sdate              |sprice         |owner      |deliveredby           |listvalidation
+        'Valid Listing'             | 'Test listing Desc'       |120                | new Date()        |100.00         |acc1       |"Worldwide"           |true
+        'No Description'            |null                       |50                 | new Date()        |100.00         |acc1       |"Worldwide"           |true
+        'No days'                   | 'Test listing Desc'       |null               | new Date()        |100.00         |acc1       |"Worldwide"           |false
+        'No StartDate'              | 'Test listing Desc'       |120                | null              |100.00         |acc1       |"Worldwide"           |false
+        'No Start amount'           | 'Test listing Desc'       |120                | new Date()        |null           |acc1       |"Worldwide"           |false
+        'No Owner'                  | 'Test listing Desc'       |120                | new Date()        |100.00         |null       |"Worldwide"           |false
+        'No Delivery'               | 'Test listing Desc'       |120                | new Date()        |100.00         |acc1       |null                  |false
+        'Start amount is Zero'      | 'Test listing Desc'       |120                | new Date()        |0              |acc1       |"Worldwide"           |false
+        'StartDate is not a date '  | 'Test listing Desc'       |120                |'sdfsdsf'          |100            |acc1       |"Worldwide"           |false
+        'listing days is not valid' | 123123    |'sfds'         |100                |new Date()         |-100           |acc1       |"Worldwide"           |false
+        'Account is not valid'      | 'Test listing Desc'       |120                | new Date()        |100            |'Joe'      |"Worldwide"           |false
+        'Start amount is negative'  | 'Test listing Desc'       |120                | new Date()        |-5000          |acc1       |"Worldwide"           |false
 
     }
 }

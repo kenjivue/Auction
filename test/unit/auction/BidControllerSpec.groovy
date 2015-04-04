@@ -7,7 +7,7 @@ import grails.test.mixin.support.GrailsUnitTestMixin
 import spock.lang.Specification
 
 @TestFor(BidController)
-@Mock([Account,Address,Listing,Bid,Delivery])
+@Mock([Account,Address,Listing,Bid])
 class BidControllerSpec extends Specification {
     def setup(){
 
@@ -36,11 +36,11 @@ class BidControllerSpec extends Specification {
         def   list1=new Listing(listingName: 'Batmobile',
                 listingDescription:'Used Batmobile , heavily damaged from crimefighting:  This is a fixer-upper, recommended for enthusiasts',
                 listingDays: 20, startDate: new Date().minus(25),startingPrice: 50000,
-                owner: acc1,deliveredby: del1,endDate: new Date().plus(20)).save(failOnError: true, flush: true)
+                owner: acc1,deliveredby: "US Only",endDate: new Date().plus(20)).save(failOnError: true, flush: true)
         def   list2=new Listing(listingName: 'Umbrella',
                 listingDescription:'Umbrella used to stab the mayor in the heart',
                 listingDays: 20, startDate: new Date().minus(9),startingPrice: 1000,
-                owner: acc1,deliveredby: del2, endDate: new Date().plus(20)).save(failOnError: true, flush: true)
+                owner: acc1,deliveredby: "US Only", endDate: new Date().plus(20)).save(failOnError: true, flush: true)
         Bid b1 = new Bid(amount: 50000.75, bidder: acc1, listing: list1, bidDate: new Date().minus(19))
         when: "Bid Save"
         b1.save(failOnError: true, flush: true)
@@ -66,17 +66,16 @@ class BidControllerSpec extends Specification {
         Account acc6 = new Account(name: 'Fish Mooney', password: 'GanstaB1t**', email: 'gaasta@evil.com',address: add3).save(failOnError: true, flush: true)
         Account acc7 = new Account(name: 'Barbara Gordon', password: 'Batgirl65', email: 'batgirl@batfamily.com',address: add4).save(failOnError: true, flush: true)
         Account acc8= new Account(name: 'Dick Grayson', password: 'NightWing95', email: 'robin@batfamily.com',address: add4).save(failOnError: true, flush: true)
-        def    del1= new Delivery(delivery: 'US Only').save(failOnError: true, flush: true)
-        def   del2= new Delivery(delivery: 'Worldwide').save(failOnError: true, flush: true)
+
 
         def   list1=new Listing(listingName: 'Batmobile',
                 listingDescription:'Used Batmobile , heavily damaged from crimefighting:  This is a fixer-upper, recommended for enthusiasts',
                 listingDays: 20, startDate: new Date().minus(25),startingPrice: 50000,
-                owner: acc1,deliveredby: del1,endDate: new Date().plus(20)).save(failOnError: true, flush: true)
+                owner: acc1,deliveredby: "US Only",endDate: new Date().plus(20)).save(failOnError: true, flush: true)
         def   list2=new Listing(listingName: 'Umbrella',
                 listingDescription:'Umbrella used to stab the mayor in the heart',
                 listingDays: 20, startDate: new Date().minus(9),startingPrice: 1000,
-                owner: acc1,deliveredby: del2, endDate: new Date().plus(20)).save(failOnError: true, flush: true)
+                owner: acc1,deliveredby: "Worldwide", endDate: new Date().plus(20)).save(failOnError: true, flush: true)
         Bid b1 = new Bid(amount: 50000.75, bidder:acc2, listing: list1, bidDate: new Date().minus(19))
         Bid b2 = new Bid(amount: 50000.00, bidder:acc2, listing: list1, bidDate: new Date().minus(18)).save(failOnError: true, flush: true)
         when: "Bid Save"
@@ -103,23 +102,21 @@ class BidControllerSpec extends Specification {
         Account acc6 = new Account(name: 'Fish Mooney', password: 'GanstaB1t**', email: 'gaasta@evil.com',address: add3).save(failOnError: true, flush: true)
         Account acc7 = new Account(name: 'Barbara Gordon', password: 'Batgirl65', email: 'batgirl@batfamily.com',address: add4).save(failOnError: true, flush: true)
         Account acc8= new Account(name: 'Dick Grayson', password: 'NightWing95', email: 'robin@batfamily.com',address: add4).save(failOnError: true, flush: true)
-        def    del1= new Delivery(delivery: 'US Only').save(failOnError: true, flush: true)
-        def   del2= new Delivery(delivery: 'Worldwide').save(failOnError: true, flush: true)
 
           def   list1=new Listing(listingName: 'Batmobile',
                 listingDescription:'Used Batmobile , heavily damaged from crimefighting:  This is a fixer-upper, recommended for enthusiasts',
                 listingDays: 20, startDate: new Date().minus(25),startingPrice: 50000,
-                owner: acc1,deliveredby: del1,endDate: new Date().plus(20)).save(failOnError: true, flush: true)
+                owner: acc1,deliveredby: "US Only",endDate: new Date().plus(20)).save(failOnError: true, flush: true)
         def   list2=new Listing(listingName: 'Umbrella',
                 listingDescription:'Umbrella used to stab the mayor in the heart',
                 listingDays: 20, startDate: new Date().minus(9),startingPrice: 1000,
-                owner: acc1,deliveredby: del2, endDate: new Date().plus(20)).save(failOnError: true, flush: true)
+                owner: acc1,deliveredby: "Worldwide", endDate: new Date().plus(20)).save(failOnError: true, flush: true)
         Bid b1 = new Bid(amount: 50000.75, bidder:acc1, listing: list1, bidDate: new Date().minus(19))
         Bid b2 = new Bid(amount: 51000, bidder:acc1, listing: list1, bidDate: new Date().minus(16))
         when: "Bid Save"
         b1.save(failOnError: true, flush: true)
         b2.save(failOnError: true, flush: true)
-        then: "Error:  Following bid must be greater than the first"
+        then: "Error:  Bidder cannot bid on his own listing"
         response.status="404"
 
     }
