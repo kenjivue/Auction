@@ -88,6 +88,12 @@ grails.hibernate.osiv.readonly = false
 environments {
     development {
         grails.logging.jul.usebridge = true
+        grails.serverURL = 'http://localhost:8080/Auction'
+        remoteControl.enabled = true
+    }
+    test {
+        grails.serverURL = 'http://localhost:8080/Auction'
+        remoteControl.enabled = true
     }
     production {
         grails.logging.jul.usebridge = false
@@ -102,7 +108,12 @@ log4j.main = {
     //appenders {
     //    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
     //}
+    debug 'grails.plugin.springsecurity'
+    info 'grails.plugin.springsecurity.web.filter.DebugFilter'
 
+    info "grails.app"
+    info 'grails.plugin.springsecurity.web.filter.DebugFilter'
+    info 'Auction'
     error  'org.codehaus.groovy.grails.web.servlet',        // controllers
            'org.codehaus.groovy.grails.web.pages',          // GSP
            'org.codehaus.groovy.grails.web.sitemesh',       // layouts
@@ -130,6 +141,7 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/**/css/**':                     ['permitAll'],
 	'/**/images/**':                  ['permitAll'],
 	'/**/favicon.ico':                ['permitAll'],
-    '/**':                            ['permitAll']
+    '/**':                            ['permitAll'],
+    '/grails-remote-control/**': ['permitAll']
 ]
 

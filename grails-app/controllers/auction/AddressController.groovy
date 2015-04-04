@@ -4,9 +4,11 @@ package auction
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
-@Transactional(readOnly = true)
-class AddressController {
 
+class AddressController {
+    static responseFormats = ['json']
+    def springSecurityService
+    def accountService
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
@@ -21,8 +23,6 @@ class AddressController {
     def create() {
         respond new Address(params)
     }
-
-    @Transactional
     def save(Address addressInstance) {
         if (addressInstance == null) {
             notFound()
@@ -48,8 +48,6 @@ class AddressController {
     def edit(Address addressInstance) {
         respond addressInstance
     }
-
-    @Transactional
     def update(Address addressInstance) {
         if (addressInstance == null) {
             notFound()
@@ -71,8 +69,6 @@ class AddressController {
             '*' { respond addressInstance, [status: OK] }
         }
     }
-
-    @Transactional
     def delete(Address addressInstance) {
 
         if (addressInstance == null) {
