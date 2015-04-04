@@ -8,17 +8,13 @@ import geb.Page
 
 class LoginPage extends Page {
 
-    static url = 'login/auth'
+    static url = "login/auth"
+
+    static at = { title == "Login" }
 
     static content = {
-        username { $("#username") }
-        password { $("#password ") }
-        submit { $("#submit") }
-    }
-
-    def login(String user, String passwd) {
-        username.value(user)
-        password.value(passwd)
-        submit.click()
+        loginForm { $("#loginForm") }
+        loginButton { $("#loginButton") }
+        registerLink { $("a[href*='register/index']") }
     }
 }

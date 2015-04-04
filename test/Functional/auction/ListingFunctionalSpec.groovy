@@ -1,5 +1,4 @@
 package auction
-
 /**
  * Created by Kenji on 4/3/2015.
  */
@@ -10,17 +9,17 @@ import auction.pages.LoginPage
 import spock.lang.Stepwise
 
 @Stepwise
-class AccountFunctionalSpec extends GebSpec {
+class ListingFunctionalSpec extends GebSpec {
 
     def remote = new AuctionRemoteControl()
 
     def setup() {
-         remote {
-             ['ROLE_ADMIN', 'ROLE_USER'].each {
-                 if (!Role.findByAuthority(it)) {
-                     new Role(authority: it).save(flush: true, failOnError: true)
-                 }
-             }
+        remote {
+            ['ROLE_ADMIN', 'ROLE_USER'].each {
+                if (!Role.findByAuthority(it)) {
+                    new Role(authority: it).save(flush: true, failOnError: true)
+                }
+            }
             def user1 = new User(username: 'testadmin', password: 'admin1234').save(failOnError: true, flush: true)
             def  user2 = new User(username: 'testuser', password: 'user1234').save(failOnError: true, flush: true)
 
@@ -29,8 +28,14 @@ class AccountFunctionalSpec extends GebSpec {
 
             Account acc1 = new Account(user: user1, name: 'Kenji Vue',  email: 'kenjivue@live.com', address: add1).save(failOnError: true, flush: true)
             Account acc2 = new Account(user: user2,name: 'Bruce Wayne',  email: 'batman@gotham.com',address: add2).save(failOnError: true, flush: true)
-             new UserRole(user:user1,role:Role.findByAuthority('ROLE_ADMIN')).save(failOnError: true, flush: true)
+            new UserRole(user:user1,role:Role.findByAuthority('ROLE_ADMIN')).save(failOnError: true, flush: true)
             new UserRole(user:user2,role:Role.findByAuthority('ROLE_USER')).save(failOnError: true, flush: true)
+
+            Listing list1=new Listing(listingName: 'Batmobile',listingDescription:'Used Batmobile , heavily damaged from crimefighting:  This is a fixer-upper, recommended for enthusiasts',
+                    listingDays: 20, startDate: new Date().minus(25),startingPrice: 50000,owner: acc2,deliveredby: 'US Only',endDate: new Date().plus(20)).save(failOnError: true, flush: true)
+            Listing list2=new Listing(listingName: 'Umbrella',listingDescription:'Umbrella used to stab the mayor in the heart',
+                    listingDays: 20, startDate: new Date().minus(9),startingPrice: 1000,owner: acc1,deliveredby: 'Worldwide', endDate: new Date().plus(20)).save(failOnError: true, flush: true)
+
         }
     }
 
@@ -45,17 +50,13 @@ class AccountFunctionalSpec extends GebSpec {
         }
     }
 
-    def "get User details"() {
-        when:
-        to AccountPage, id: acc1
-
-        then:
-        name.text() == acc1.name
-        id.text() == acc1.id
-        email.text()==acc1.email
+    def "Test Create Listing"() {
 
     }
-    def "Update user data"(){
+    def "Test Update Listing"(){
+
+    }
+    def "Review Listing"(){
 
     }
 }

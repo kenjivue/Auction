@@ -39,8 +39,8 @@ class HttpUtils {
     }
 
     def doGet(String url) {
-        if (!url.startsWith(MuzicRemoteControl.functionalTestBaseUrl + '/')) {
-            url = MuzicRemoteControl.functionalTestBaseUrl + '/' + url
+        if (!url.startsWith(AuctionRemoteControl.functionalTestBaseUrl + '/')) {
+            url = AuctionRemoteControl.functionalTestBaseUrl + '/' + url
         }
         def request = new HttpGet(url)
         return performRequest(request)
@@ -48,7 +48,7 @@ class HttpUtils {
 
     // Use this method to submit an HTML form-style data (for example from the login screen)
     def doFormPost(String path, Map formData) {
-        String url = MuzicRemoteControl.functionalTestBaseUrl + '/' + path
+        String url = AuctionRemoteControl.functionalTestBaseUrl + '/' + path
         def request = new HttpPost(url)
 
         List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
@@ -62,7 +62,7 @@ class HttpUtils {
 
     // Use this method to submit JSON data via a POST
     def doJsonPost(String path, Object data) {
-        String url = MuzicRemoteControl.functionalTestBaseUrl + '/' + path
+        String url = AuctionRemoteControl.functionalTestBaseUrl + '/' + path
         def request = new HttpPost(url)
         def entity = new StringEntity(JsonOutput.toJson(data), 'UTF8')
         entity.setContentType('application/json')
