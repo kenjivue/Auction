@@ -1,117 +1,38 @@
-<%@ page import="auction.Listing" %>
+<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta name="layout" content="main"/>
-		<title>Welcome to Grails</title>
-		<style type="text/css" media="screen">
-			#status {
-				background-color: #eee;
-				border: .2em solid #fff;
-				margin: 2em 2em 1em;
-				padding: 1em;
-				width: 12em;
-				float: left;
-				-moz-box-shadow: 0px 0px 1.25em #ccc;
-				-webkit-box-shadow: 0px 0px 1.25em #ccc;
-				box-shadow: 0px 0px 1.25em #ccc;
-				-moz-border-radius: 0.6em;
-				-webkit-border-radius: 0.6em;
-				border-radius: 0.6em;
-			}
+<head>
+	<asset:stylesheet href="application.css"/>
 
-			.ie6 #status {
-				display: inline; /* float double margin fix http://www.positioniseverything.net/explorer/doubled-margin.html */
-			}
+	<script>
+		<% def user = SecurityContextHolder.getContext().getAuthentication().getPrincipal()
+        if (user?.username) {
+        %>
 
-			#status ul {
-				font-size: 0.9em;
-				list-style-type: none;
-				margin-bottom: 0.6em;
-				padding: 0;
-			}
+		var loggedInUser = {
+			username: '<%=  user?.username %>'
+		};
 
-			#status li {
-				line-height: 1.3;
-			}
+		<% } %>
 
-			#status h1 {
-				text-transform: uppercase;
-				font-size: 1.1em;
-				margin: 0 0 0.3em;
-			}
+	</script>
 
-			#page-body {
-				margin: 2em 1em 1.25em 18em;
-			}
+	<asset:javascript src="application.js"/>
+</head>
 
-			h2 {
-				margin-top: 1em;
-				margin-bottom: 0.3em;
-				font-size: 1em;
-			}
+<body ng-app="app">
 
-			p {
-				line-height: 1.5;
-				margin: 0.25em 0;
-			}
+<h1><b>Sellit.com</b></h1>
 
-			#controller-list ul {
-				list-style-position: inside;
-			}
+<sec:ifLoggedIn>
+	<a href="logout">logout</a><br/>
+</sec:ifLoggedIn>
+<sec:ifNotLoggedIn>
+	<a href="login">login</a><br/>
+	<a href="#/account">create new account</a><br/>
+</sec:ifNotLoggedIn>
 
-			#controller-list li {
-				line-height: 1.3;
-				list-style-position: inside;
-				margin: 0.25em 0;
-			}
+<ng-view></ng-view>
 
-			@media screen and (max-width: 480px) {
-				#status {
-					display: none;
-				}
-
-				#page-body {
-					margin: 0 1em 1em;
-				}
-
-				#page-body h1 {
-					margin-top: 0;
-				}
-			}
-		</style>
-
-	</head>
-	<body>
-		<a href="#page-body" class="skip"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-		<div id="status" role="complementary">
-			<h1>Navigation</h1>
-			<ul>
-				<g:each var="c" in="${grailsApplication.controllerClasses.sort { it.fullName  } }">
-					<li class="controller"><g:link controller="${c.logicalPropertyName}">${c.name}</g:link></li>
-				</g:each>
-			</ul>
-		</div>
-		<div id="page-body" role="main">
-			<h1>Welcome to Awesome Auction</h1>
-			<p>Check out our hottest items up for bid!</p>
-			<a href="#list-listing" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-			<div class="nav" role="navigation">
-				<ul> 
-					<li><g:link controller="listing" action="create">New Listing</g:link></li>
-
-				</ul>
-				<g:form name="find" action="find" controller="listing">
-					<br/>Listing:
-					<input type="text" name="filter"/>
-					<button>Find</button>
-					Show Completed Listings:
-					<g:checkBox name="completed"/>
-				</g:form>
-
-
-			</div>
-
-		</div>
-	</body>
+</body>
 </html>

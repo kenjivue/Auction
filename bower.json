@@ -1,0 +1,35 @@
+{
+  "name": "Auction",
+  "version": "0.0.0",
+  "homepage": "https://github.com/kenjivue/Auction",
+  "authors": [
+    "Kenji Vue <kenjivue@live.com>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "angular-bootstrap": "~0.13.0"
+  },
+  "description": "Kenji's Awesome Auction Angular Site",
+  "main": "main.js",
+  "moduleType": [
+    "amd",
+    "es6",
+    "globals",
+    "node",
+    "yui"
+  ],
+  "keywords": [
+    "Kenji's",
+    "Awesome",
+    "Auction",
+    "Site"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "grails-app/assets/bower_components",
+    "test",
+    "tests"
+  ]
+}

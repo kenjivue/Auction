@@ -8,6 +8,7 @@ import static org.springframework.http.HttpStatus.*
 import groovy.time.TimeCategory
 import auction.Bid
 class ListingController {
+    static responseFormats = ['json']
     def springSecurityService
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE",index:"GET"]
 
