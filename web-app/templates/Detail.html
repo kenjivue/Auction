@@ -1,0 +1,56 @@
+<div ng-controller="DetailController"  >
+
+
+    <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+
+    <table >
+        <tr>
+        <th colspan="4">  {{listing.listingName}}
+        </th></tr><tr>
+        <td colspan="4"> {{listing.listingDescription}}</td></tr>
+
+
+
+    </table>
+    <hi>Bids</hi>
+    <table>
+        <tr><th>Date</th><th>Bidder</th><th>Amount</th></tr>
+
+        <tr ng-repeat="li in listings" >
+
+                <td ng-bind="bids.bidDate | date:'MM/dd/yy hh:mm'"></td>
+                <td><a href="#/Account/{{bids.bidder.id}}">{{bids.bidder.name}}</a></td>
+                <td>{{bids.amount}}</td>
+          </tr>
+
+    </table>
+    <div ng-show="newBid">
+        Bid Amount: <input type="number" id="txtBidAmount" min="1">
+        <button id="btSaveB" ng-click="saveBid()">Bid</button>
+        <button id="btnCancelB" ng-click="cancelBid()">Cancel</button>
+        <br/><br/>
+    </div>
+
+    <div ng-show="newReview">
+        <table>
+            <tr>
+                <td>
+                    <input type="checkbox" name="thumbs" id="cbThumbsUp"> Postive Review
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Description: <input type="text" id="txtDesc" style="width:500px">
+                    <button id="btnSaveR" ng-click="saveRev()">Save</button>
+                    <button id="btnCancelR" ng-click="cancelRev()">Cancel</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <button id="btnReviewSeller" ng-show="listing.highBidAccount.username == loggedInUser.username && listing.completed && !newReview" ng-click="createReview(false)">Seller Review</button>
+    <button id="btnReviewWinner" ng-show="listing.sellerAccount.username == loggedInUser.username && listing.completed && !newReview" ng-click="createReview(true)">Buyer Review</button>
+    <button id="btnBid" ng-show="!listing.completed && loggedInUser.username != '__grails.anonymous.user__' && !newBid" ng-click="createBid()">Place Bid</button>
+    <button id="btnReturn" ng-click="BackToListings()">Return to Listings</button>
+
+</div>
