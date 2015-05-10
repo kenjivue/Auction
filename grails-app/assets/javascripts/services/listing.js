@@ -6,8 +6,8 @@
 'use strict';
 
 angular.module('app').factory('Listing', function ($resource) {
-    return $resource('listings', {},
-        {save: {method: 'POST'}}
+    return $resource('api/listing/:id', {},
+        {create: {method: 'PUT'}}
     );
 });
 

@@ -16,6 +16,6 @@ class ListingRestController extends RestfulController<Listing> {
         params.max = Math.min(max ?: 10, 100)
 
         def listings = Listing.where { listingName =~ "%${q.toLowerCase()}%" }.list(max: max)
-        respond listings, model: [reviewCount: listings.size()]
+        respond listings, model: [listingCount: listings.size()]
     }
 }

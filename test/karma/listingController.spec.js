@@ -1,4 +1,6 @@
-describe('SongPlaysController', function () {
+'use strict';
+
+describe('listingController', function () {
 
     var $controller, $httpBackend, $scope;
 
@@ -9,4 +11,4 @@ describe('SongPlaysController', function () {
         $httpBackend = $injector.get('$httpBackend');
         $scope = $injector.get('$rootScope').$new();
     }));
-}
+};

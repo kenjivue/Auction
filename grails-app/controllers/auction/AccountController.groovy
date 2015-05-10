@@ -1,5 +1,6 @@
 package auction
 
+import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 import static org.springframework.http.HttpStatus.*
 class AccountController {
@@ -7,17 +8,19 @@ class AccountController {
     def springSecurityService
     def accountService
     static allowedMethods = [create: "POST", update: "PUT", delete: "DELETE", get:"GET"]
-    @Secured("ROLE_ADMIN")
-    def index(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        respond Account.list(params), model:[accountInstanceCount: Account.count()]
+    def index() {
+        if (!params.max || params.max > 25) {
+            params.max = 25
+        }
+        JSON.use('deep')
+        respond Account.list(max: params.max , offset:params.offset ) as JSON
     }
     @Secured(closure = {
         def username = request.requestURI.substring(request.requestURI.lastIndexOf('/')+1)
         authentication.principal.username == username
     })
     def get() {
-        [account: Account.findByUser(springSecurityService.currentUser)]
+        [account: Account.findByUser(springSecurityService.currentUser as User)]
     }
 
     @Secured(closure = {

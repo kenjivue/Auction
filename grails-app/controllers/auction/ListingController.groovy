@@ -12,7 +12,7 @@ class ListingController {
     def springSecurityService
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE",index:"GET"]
 
-    def Bids(Listing listingInstance){
+    def TotalBids(Listing listingInstance){
         return listingInstance.bids.count()
     }
 
@@ -20,7 +20,7 @@ class ListingController {
         params.max = Math.min(max ?: 10, 100)
         def today = new Date()
         def current = Listing.where{ endDate >= today}
-        respond current.list(params), model: [listingInstanceCount: current.count()]
+        respond current.list(params), model: [listingInstanceCount: current.count(), totalBids: TotalBids(current)]
     }
     def find(String filter, boolean completed, Integer max){
         params.max=Math.min(max?:10,100)
@@ -36,7 +36,7 @@ class ListingController {
 
     }
     def show(Listing listingInstance) {
-        respond listingInstance
+        respond listingInstance, model: [totalBids: TotalBids ]
     }
     def create() {
         respond new Listing(params)

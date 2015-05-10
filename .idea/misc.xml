@@ -4,6 +4,9 @@
     <entry_points version="2.0" />
   </component>
   <component name="IdProvider" IDEtalkID="C45D22E5BAA5CB3A48FF42AEF5569DCC" />
+  <component name="ProjectPlainTextFileTypeManager">
+    <file url="file://$PROJECT_DIR$/web-app/templates/header.html" />
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>

@@ -6,29 +6,35 @@
 
 angular.module('app').controller('ListingController', function ($scope, $modal, $http, $location, Listing, loggedInUser) {
     $scope.loggedInUser = loggedInUser;
+    var refreshListing = function(){
+            $scope.listings = Listing.query();
+            $scope.listings.$promise.then(function (result) {
+                $scope.totalItems = result.length;
+                $scope.currentPage = 1;
 
-    var getActiveListings = function () {
-        return $http.get('api/listings/').then(function (response) {
+        });
+    };
+        var find = function () {
+        var params = $scope.params;
+        params.filter = txtSearch.value;
+        params.Completed = showCompleted.value;
+        return $http.get('/api/listings/'+params.max).then(function (response) {
             $scope.listings = response.data;
         });
     };
-
-    var getAllListings = function() {
-        return $http.get('api/listings?showCompleted=true').then(function (response) {
-            $scope.listings = response.data;
-        });
-    };
-
-    getActiveListings();
     $scope.alerts = [];
 
     $scope.getListings = function($event, id) {
         var checkbox = $event.target;
         if (checkbox.checked) {
-            return getAllListings();
+            return $http.get('/api/listings/'+params.max).then(function (response) {
+                $scope.listings = response.data;
+            });
         }
         else {
-            return getActiveListings();
+            return $http.get('/api/listings/'+params.max+'&Completed=true').then(function (response) {
+                $scope.listings = response.data;
+            });
         }
     };
 
@@ -39,22 +45,22 @@ angular.module('app').controller('ListingController', function ($scope, $modal, 
     $scope.saveListing = function() {
         $scope.clearAlerts();
 
-        var listing = $scope.newListing;
-        listing.name = txtListingName.value;
-        listing.description = txtListingDesc.value;
+        var listingInstance = $scope.newListing;
+        listingInstance.name = txtListingName.value;
+        listingInstance.description = txtListingDesc.value;
         //had to comment out this line because could not get HTML/javascript date to format in a way grails would accept
         //listing.startDate = txtStartDate.value;
-        listing.listingDays = txtDays.value;
-        listing.startingPrice = txtStartingPrice.value;
-        listing.deliverOption = pklDeliverOption.value;
+        listingInstance.listingDays = txtDays.value;
+        listingInstance.startingPrice = txtStartingPrice.value;
+        listingInstance.deliverOption = pklDeliverOption.value;
 
-        Listing.save(listing).$promise.then(function(listing) {
-                $scope.alerts.push({type: 'success', msg: 'listing added: ' + listing.name});
+        listingInstance.save(listingInstance).$promise.then(function(listingInstance) {
+                $scope.alerts.push({type: 'success', msg: 'Listing added: ' + listingInstance.name});
                 delete $scope.newListing;
-                getActiveListings();
-                $location.path("/listings");
+                activeListings();
+                $location.path("/api/listings");
             }, function(error) {
-                $scope.alerts.push({type: 'danger', msg: 'error creating listing: ' + error.data});
+                $scope.alerts.push({type: 'danger', msg: 'error: Listing could not be created: ' + error.data});
             }
         );
     };
@@ -72,6 +78,7 @@ angular.module('app').controller('ListingController', function ($scope, $modal, 
             $scope.alerts.splice(index);
         });
     };
+refreshListing();
 });
 
 

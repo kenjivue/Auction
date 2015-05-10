@@ -8,9 +8,12 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-  <title></title>
+    <title>Logout</title>
 </head>
-<body>
 
+<body>
+You have logged out.
+
+Click <a href ="/Auction">here</a> to return to the home page.
 </body>
 </html>

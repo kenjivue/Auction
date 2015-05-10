@@ -6,7 +6,7 @@
 'use strict';
 
 angular.module('app').factory('Review', function ($resource) {
-    return $resource('reviews', {},
-        {save: {method: 'POST'}}
+    return $resource('api/review/:id', {},
+        {create: {method: 'PUT'}}
     );
 });

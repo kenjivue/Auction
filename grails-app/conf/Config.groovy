@@ -132,6 +132,7 @@ log4j.main = {
 grails.plugin.springsecurity.userLookup.userDomainClassName = 'auction.User'
 grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'auction.UserRole'
 grails.plugin.springsecurity.authority.className = 'auction.Role'
+grails.plugin.springsecurity.logout.afterLogoutUrl="/Auction"
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/':                              ['permitAll'],
 	'/index':                         ['permitAll'],
@@ -142,6 +143,8 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/**/images/**':                  ['permitAll'],
 	'/**/favicon.ico':                ['permitAll'],
     '/**':                            ['permitAll'],
-    '/grails-remote-control/**': ['permitAll']
+    '/api/**':                            ['permitAll'],
+    '/grails-remote-control/**': ['permitAll'],
+       '/logout/***':  ['permitAll']
 ]
 

@@ -11,7 +11,7 @@
 //= require_self
 //= require_tree .
 
-angular.module('app', ['ngRoute', 'ngResource', 'ui.bootstrap']);
+angular.module("app", ["ngRoute", "ngResource", "ui.bootstrap"]);
 
 if (typeof jQuery !== 'undefined') {
     (function($) {

@@ -2,30 +2,26 @@
 
     <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
 
-    <div ng-show="!newListing">
-        <h1>Listings</h1>
-
-        <input type="checkbox" id="cbShowCompleted" ng-click="getListings($event, e.id)"> include completed listings
-
+        <h1>Listings <input type="text" id="txtSearch"><input type="button" id="btnSearch" ng-click="find()" value="Search"> <input type="checkbox" id="showCompleted" ng-click="getListings($event, e.id)"> include completed listings</h1>
         <table>
             <thead style="font-weight: bold">
-            <tr>
+                <td>ID</td>
                 <td>Name</td>
-                <td>High Bid</td>
                 <td>End Date</td>
+                <td>Bids</td>
                 <td>Seller</td>
-            </tr>
             </thead>
-            <tr ng-repeat="listing in listings">
-                <td><a href="#/listing/{{listing.id}}">{{listing.name}}</a></td>
-                <td ng-bind="listing.currentHighBid"></td>
-                <td ng-bind="listing.endDate | date:'MM/dd/yyyy hh:mm'"></td>
-                <td ng-bind="listing.sellerAccount.username"></td>
+            <tr ng-repeat="li in listings" >
+                <td>{{li.id}}</td>
+                <td><a href="#/listing/{{li.id}}">{{li.listingName}}</a></td>
+                <td ng-bind="li.endDate | date:'MM/dd/yy hh:mm'"></td>
+                <td>{{li.bids.count }}</td>
+                <td>{{li.owner.name}}</td>
             </tr>
         </table>
 
-        <button id="btnNewListing" ng-click="addListing()" ng-show="loggedInUser.username != '__grails.anonymous.user__'">Create New Listing</button>
-    </div>
+        <button id="btnNewListing" ng-click="newListing()" ng-show="loggedInUser.username != '__grails.anonymous.user__'">New Listing</button>
+
 
     <div ng-show="newListing">
         <h1>New Listing</h1>

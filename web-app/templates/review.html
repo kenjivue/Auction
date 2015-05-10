@@ -1,60 +1,6 @@
-<div ng-controller="ListingController">
+<div ng-controller="ReviewController">
 
     <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
-
-    <div ng-show="refreshListing">
-        <h1>Listings <input type="text" id="txtSearch"><input type="button" id="btnSearch" ng-click="find()" value="Search"> <input type="checkbox" id="showCompleted" ng-click="getListings($event, e.id)"> include completed listings</h1>
-        <table>
-            <thead style="font-weight: bold">
-                <td>ID</td>
-                <td>Name</td>
-                <td>End Date</td>
-                <td>Seller</td>
-            </thead>
-            <tr ng-repeat="li in listings" >
-                <td>{{li.id}}</td>
-                <td><a href="#/listing/{{li.id}}">{{li.listingName}}</a></td>
-                <td ng-bind="li.endDate | date:'MM/dd/yy hh:mm'"></td>
-                <td ng-bind="li.owner.name"></td>
-            </tr>
-        </table>
-
-        <button id="btnNewListing" ng-click="newListing()" ng-show="loggedInUser.username != '__grails.anonymous.user__'">New Listing</button>
-    </div>
-
-    <div ng-show="newListing">
-        <h1>New Listing</h1>
-        <table>
-            <tr>
-                <td>Listing Name:</td>
-                <td><input type="text" id="txtListingName" style="width:500px" ng-required="true"></td>
-            </tr>
-            <tr>
-                <td>Listing Description:</td>
-                <td><input type="text" id="txtListingDesc" style="width: 500px; height: 100px" ng-required="true"></td>
-            </tr>
-            <tr>
-                <td>Start Date:</td>
-                <td><input type="date" id="txtStartDate" ng-required="true"></td>
-            </tr>
-            <tr>
-                <td>Listing Length (days):</td>
-                <td><input type="number" min="3" max="10" id="txtDays" ng-required="true"></td>
-            </tr>
-            <tr>
-                <td>Starting Price:</td>
-                <td><input type="number" id="txtStartingPrice" ng-required="true"></td>
-            </tr>
-            <tr>
-                <td>Delivery Option:</td>
-                <td><select id="pklDeliverOption" ng-required="true">
-                    <option value="US Only">US Only</option>
-                    <option value="Worldwide">Worldwide</option>
-                    <option value="Pick Up Only">Pick Up Only</option>
-                </select></td>
-            </tr>
-
-        </table>
 
         <button id="btnSaveListing" ng-click="saveListing()">Save</button>
         <button id="btnCancelListing" ng-click="cancelListing()">Cancel</button>
